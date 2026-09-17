@@ -2,402 +2,317 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>NEON DISTRICT — V0.2 GARAGE</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>NEON DISTRICT — V0.3 VISUAL TUNING</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    user-select: none;
-    -webkit-user-select: none;
+*{
+ box-sizing:border-box;
+ margin:0;
+ padding:0;
+ user-select:none;
+ -webkit-user-select:none;
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #050509;
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
+html,body{
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ background:#050509;
+ color:white;
+ font-family:Arial,Helvetica,sans-serif;
 }
 
-#game {
-    position: fixed;
-    inset: 0;
+#game{
+ position:fixed;
+ inset:0;
 }
 
-canvas {
-    display: block;
+canvas{
+ display:block;
 }
 
-/* =========================
-   HUD
-========================= */
-
-#hud {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
+#hud{
+ position:fixed;
+ inset:0;
+ pointer-events:none;
 }
 
-.topbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-
-    height: 70px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 10px 18px;
-
-    background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,.75),
-        rgba(0,0,0,0)
-    );
+.topbar{
+ position:absolute;
+ top:0;
+ left:0;
+ right:0;
+ height:72px;
+ padding:12px 18px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ background:linear-gradient(to bottom,rgba(0,0,0,.85),transparent);
 }
 
-.logo {
-    font-weight: 900;
-    font-style: italic;
-    letter-spacing: 3px;
-    font-size: 22px;
-    text-shadow:
-        0 0 8px #00d9ff,
-        0 0 18px #ff00cc;
+.logo{
+ font-size:22px;
+ font-weight:900;
+ font-style:italic;
+ letter-spacing:3px;
+ text-shadow:0 0 8px #00dcff,0 0 18px #ff00cc;
 }
 
-.money {
-    color: #6cff9a;
-    font-size: 18px;
-    font-weight: bold;
+.money{
+ color:#70ff9b;
+ font-weight:bold;
+ font-size:18px;
 }
 
-/* =========================
-   MENU
-========================= */
-
-#garageMenu {
-    position: absolute;
-
-    left: 18px;
-    top: 90px;
-
-    width: 250px;
-
-    padding: 15px;
-
-    background: rgba(5,5,12,.84);
-
-    border: 1px solid rgba(0,220,255,.4);
-
-    box-shadow:
-        0 0 20px rgba(0,220,255,.15),
-        inset 0 0 20px rgba(255,0,180,.04);
-
-    backdrop-filter: blur(8px);
-
-    pointer-events: auto;
+#menu{
+ position:absolute;
+ top:85px;
+ left:15px;
+ width:220px;
+ padding:14px;
+ background:rgba(5,5,12,.88);
+ border:1px solid rgba(0,220,255,.4);
+ backdrop-filter:blur(10px);
+ pointer-events:auto;
 }
 
-.menuTitle {
-    font-size: 13px;
-    color: #00dcff;
-    letter-spacing: 3px;
-    margin-bottom: 12px;
+.title{
+ color:#00dcff;
+ font-size:12px;
+ letter-spacing:3px;
+ margin-bottom:12px;
 }
 
-.menuButton {
-    width: 100%;
-    margin-bottom: 8px;
-
-    padding: 12px;
-
-    border: 1px solid rgba(255,255,255,.15);
-
-    background: rgba(255,255,255,.06);
-
-    color: white;
-
-    text-align: left;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: .15s;
+button{
+ font-family:inherit;
 }
 
-.menuButton:hover,
-.menuButton.active {
-    background: linear-gradient(
-        90deg,
-        rgba(0,220,255,.22),
-        rgba(255,0,180,.18)
-    );
-
-    border-color: #00dcff;
-
-    box-shadow: 0 0 12px rgba(0,220,255,.25);
+.menuBtn{
+ width:100%;
+ padding:11px;
+ margin-bottom:7px;
+ color:white;
+ background:rgba(255,255,255,.06);
+ border:1px solid rgba(255,255,255,.14);
+ text-align:left;
+ cursor:pointer;
 }
 
-/* =========================
-   CUSTOMIZATION
-========================= */
-
-#customPanel {
-    position: absolute;
-
-    right: 18px;
-    top: 90px;
-
-    width: 280px;
-
-    padding: 16px;
-
-    background: rgba(5,5,12,.88);
-
-    border: 1px solid rgba(255,0,200,.4);
-
-    backdrop-filter: blur(10px);
-
-    pointer-events: auto;
-
-    display: none;
+.menuBtn:hover,
+.menuBtn.active{
+ border-color:#00dcff;
+ background:rgba(0,220,255,.15);
 }
 
-.panelTitle {
-    font-size: 13px;
-    color: #ff42d0;
-    letter-spacing: 3px;
-    margin-bottom: 15px;
+#tuning{
+ position:absolute;
+ top:85px;
+ right:15px;
+ width:310px;
+ max-height:calc(100vh - 105px);
+ overflow-y:auto;
+ padding:15px;
+ background:rgba(5,5,12,.92);
+ border:1px solid rgba(255,0,200,.4);
+ backdrop-filter:blur(10px);
+ pointer-events:auto;
+ display:none;
 }
 
-.section {
-    margin-bottom: 18px;
+#tuning::-webkit-scrollbar{
+ width:5px;
 }
 
-.section label {
-    display: block;
-
-    font-size: 11px;
-
-    color: #aaa;
-
-    margin-bottom: 8px;
-
-    letter-spacing: 1px;
+#tuning::-webkit-scrollbar-thumb{
+ background:#00dcff;
 }
 
-.colorGrid {
-    display: grid;
-
-    grid-template-columns: repeat(5, 1fr);
-
-    gap: 7px;
+.tuningTitle{
+ color:#ff42d0;
+ font-size:13px;
+ letter-spacing:3px;
+ margin-bottom:15px;
 }
 
-.colorButton {
-    height: 32px;
-
-    border: 2px solid rgba(255,255,255,.2);
-
-    cursor: pointer;
-
-    transition: .15s;
+.category{
+ margin-bottom:18px;
 }
 
-.colorButton:hover {
-    transform: scale(1.08);
+.categoryTitle{
+ color:#aaa;
+ font-size:10px;
+ letter-spacing:2px;
+ margin-bottom:8px;
 }
 
-.colorButton.selected {
-    border-color: white;
-
-    box-shadow:
-        0 0 8px white;
+.optionGrid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:6px;
 }
 
-/* =========================
-   STATS
-========================= */
-
-#stats {
-    position: absolute;
-
-    left: 18px;
-    bottom: 18px;
-
-    width: 250px;
-
-    padding: 15px;
-
-    background: rgba(0,0,0,.72);
-
-    border-left: 3px solid #00dcff;
-
-    pointer-events: none;
+.option{
+ min-height:43px;
+ padding:7px;
+ color:#fff;
+ background:rgba(255,255,255,.05);
+ border:1px solid rgba(255,255,255,.13);
+ cursor:pointer;
+ text-align:left;
 }
 
-.carName {
-    font-size: 19px;
-
-    font-weight: 900;
-
-    font-style: italic;
-
-    letter-spacing: 2px;
-
-    margin-bottom: 12px;
+.option small{
+ display:block;
+ color:#777;
+ font-size:9px;
+ margin-top:3px;
 }
 
-.stat {
-    margin-bottom: 9px;
+.option:hover{
+ border-color:#00dcff;
 }
 
-.statHeader {
-    display: flex;
-
-    justify-content: space-between;
-
-    font-size: 11px;
-
-    color: #bbb;
-
-    margin-bottom: 4px;
+.option.selected{
+ border-color:#ff00cc;
+ background:rgba(255,0,200,.13);
+ box-shadow:0 0 8px rgba(255,0,200,.2);
 }
 
-.bar {
-    height: 5px;
-
-    background: rgba(255,255,255,.12);
+.colorGrid{
+ display:grid;
+ grid-template-columns:repeat(5,1fr);
+ gap:6px;
 }
 
-.barFill {
-    height: 100%;
-
-    background: linear-gradient(
-        90deg,
-        #00dcff,
-        #ff00d4
-    );
-
-    box-shadow:
-        0 0 8px rgba(0,220,255,.5);
+.color{
+ height:30px;
+ border:2px solid rgba(255,255,255,.2);
+ cursor:pointer;
 }
 
-/* =========================
-   HELP
-========================= */
-
-#help {
-    position: absolute;
-
-    right: 18px;
-    bottom: 18px;
-
-    font-size: 11px;
-
-    color: #999;
-
-    text-align: right;
+.color.selected{
+ border-color:white;
+ box-shadow:0 0 10px white;
 }
 
-/* =========================
-   TOUCH CONTROLS
-========================= */
-
-#touchControls {
-    position: fixed;
-
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    display: none;
-
-    justify-content: space-between;
-
-    padding: 15px;
-
-    pointer-events: none;
+#stats{
+ position:absolute;
+ bottom:18px;
+ left:15px;
+ width:245px;
+ padding:14px;
+ background:rgba(0,0,0,.78);
+ border-left:3px solid #00dcff;
 }
 
-.touchGroup {
-    display: flex;
-    gap: 10px;
-
-    pointer-events: auto;
+.carName{
+ font-size:18px;
+ font-weight:900;
+ font-style:italic;
+ letter-spacing:2px;
+ margin-bottom:12px;
 }
 
-.touchButton {
-    width: 58px;
-    height: 58px;
-
-    border-radius: 50%;
-
-    border: 1px solid rgba(255,255,255,.3);
-
-    background: rgba(0,0,0,.6);
-
-    color: white;
-
-    font-size: 20px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    touch-action: none;
+.stat{
+ margin-bottom:8px;
 }
 
-.touchButton:active {
-    background: rgba(0,220,255,.3);
+.statHead{
+ display:flex;
+ justify-content:space-between;
+ font-size:10px;
+ color:#aaa;
+ margin-bottom:4px;
 }
 
-@media(max-width: 800px) {
+.statBar{
+ height:5px;
+ background:rgba(255,255,255,.12);
+}
 
-    #garageMenu {
-        left: 10px;
-        top: 75px;
-        width: 175px;
-    }
+.statFill{
+ height:100%;
+ background:linear-gradient(90deg,#00dcff,#ff00cc);
+}
 
-    #customPanel {
-        right: 10px;
-        top: 75px;
-        width: 210px;
-        max-height: 55vh;
-        overflow-y: auto;
-    }
+#controls{
+ position:absolute;
+ bottom:18px;
+ right:15px;
+ display:flex;
+ gap:7px;
+ pointer-events:auto;
+}
 
-    #stats {
-        left: 10px;
-        bottom: 90px;
-        width: 190px;
-    }
+.controlBtn{
+ padding:10px 12px;
+ color:white;
+ background:rgba(0,0,0,.7);
+ border:1px solid rgba(255,255,255,.2);
+ cursor:pointer;
+}
 
-    #help {
-        display: none;
-    }
+#touch{
+ position:fixed;
+ bottom:15px;
+ left:0;
+ right:0;
+ display:none;
+ justify-content:space-between;
+ padding:0 15px;
+ pointer-events:none;
+}
 
-    #touchControls {
-        display: flex;
-    }
+.touchGroup{
+ display:flex;
+ gap:8px;
+ pointer-events:auto;
+}
 
-    .logo {
-        font-size: 16px;
-    }
+.touchBtn{
+ width:58px;
+ height:58px;
+ border-radius:50%;
+ background:rgba(0,0,0,.65);
+ border:1px solid rgba(255,255,255,.3);
+ color:white;
+ font-size:20px;
+ touch-action:none;
+}
+
+@media(max-width:800px){
+
+ #menu{
+  left:8px;
+  top:72px;
+  width:165px;
+ }
+
+ #tuning{
+  right:8px;
+  top:72px;
+  width:205px;
+  max-height:55vh;
+ }
+
+ #stats{
+  left:8px;
+  bottom:85px;
+  width:190px;
+ }
+
+ #controls{
+  display:none;
+ }
+
+ #touch{
+  display:flex;
+ }
+
+ .logo{
+  font-size:15px;
+ }
 }
 </style>
 </head>
@@ -406,300 +321,322 @@ canvas {
 
 <div id="game"></div>
 
-<!-- =========================
-     HUD
-========================= -->
-
 <div id="hud">
 
-    <div class="topbar">
+<div class="topbar">
+ <div class="logo">NEON DISTRICT</div>
+ <div class="money">$ <span id="money">25000</span></div>
+</div>
 
-        <div class="logo">
-            NEON DISTRICT
-        </div>
+<div id="menu">
 
-        <div class="money">
-            $ <span id="money">25,000</span>
-        </div>
+ <div class="title">GARAGE</div>
 
-    </div>
+ <button class="menuBtn active" id="carBtn">
+  🚗 MI COCHE
+ </button>
 
-    <!-- MENU -->
+ <button class="menuBtn" id="tuningBtn">
+  🔧 VISUAL TUNING
+ </button>
 
-    <div id="garageMenu">
+ <button class="menuBtn" id="cameraBtn">
+  🔄 CÁMARA
+ </button>
 
-        <div class="menuTitle">
-            GARAGE
-        </div>
-
-        <button class="menuButton active" id="btnCar">
-            🚗 MI COCHE
-        </button>
-
-        <button class="menuButton" id="btnCustomize">
-            🔧 PERSONALIZAR
-        </button>
-
-        <button class="menuButton" id="btnRotate">
-            🔄 CÁMARA
-        </button>
-
-        <button class="menuButton" id="btnExit">
-            🏁 SALIR
-        </button>
-
-    </div>
-
-    <!-- CUSTOMIZATION -->
-
-    <div id="customPanel">
-
-        <div class="panelTitle">
-            PERSONALIZACIÓN
-        </div>
-
-        <div class="section">
-
-            <label>
-                COLOR DE CARROCERÍA
-            </label>
-
-            <div class="colorGrid" id="bodyColors">
-
-                <button class="colorButton selected"
-                        data-color="#111111"
-                        style="background:#111111"></button>
-
-                <button class="colorButton"
-                        data-color="#e60000"
-                        style="background:#e60000"></button>
-
-                <button class="colorButton"
-                        data-color="#0066ff"
-                        style="background:#0066ff"></button>
-
-                <button class="colorButton"
-                        data-color="#00cc77"
-                        style="background:#00cc77"></button>
-
-                <button class="colorButton"
-                        data-color="#eeeeee"
-                        style="background:#eeeeee"></button>
-
-                <button class="colorButton"
-                        data-color="#8c00ff"
-                        style="background:#8c00ff"></button>
-
-                <button class="colorButton"
-                        data-color="#ff1493"
-                        style="background:#ff1493"></button>
-
-                <button class="colorButton"
-                        data-color="#ff7200"
-                        style="background:#ff7200"></button>
-
-                <button class="colorButton"
-                        data-color="#ffd000"
-                        style="background:#ffd000"></button>
-
-                <button class="colorButton"
-                        data-color="#00ffff"
-                        style="background:#00ffff"></button>
-
-            </div>
-
-        </div>
-
-        <div class="section">
-
-            <label>
-                COLOR DE LLANTAS
-            </label>
-
-            <div class="colorGrid" id="wheelColors">
-
-                <button class="colorButton selected"
-                        data-color="#111111"
-                        style="background:#111111"></button>
-
-                <button class="colorButton"
-                        data-color="#777777"
-                        style="background:#777777"></button>
-
-                <button class="colorButton"
-                        data-color="#dddddd"
-                        style="background:#dddddd"></button>
-
-                <button class="colorButton"
-                        data-color="#00dcff"
-                        style="background:#00dcff"></button>
-
-                <button class="colorButton"
-                        data-color="#ff00cc"
-                        style="background:#ff00cc"></button>
-
-            </div>
-
-        </div>
-
-        <div class="section">
-
-            <label>
-                NEÓN INFERIOR
-            </label>
-
-            <div class="colorGrid" id="neonColors">
-
-                <button class="colorButton selected"
-                        data-color="#00dcff"
-                        style="background:#00dcff"></button>
-
-                <button class="colorButton"
-                        data-color="#ff00cc"
-                        style="background:#ff00cc"></button>
-
-                <button class="colorButton"
-                        data-color="#7d00ff"
-                        style="background:#7d00ff"></button>
-
-                <button class="colorButton"
-                        data-color="#00ff88"
-                        style="background:#00ff88"></button>
-
-                <button class="colorButton"
-                        data-color="#ff3300"
-                        style="background:#ff3300"></button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- STATS -->
-
-    <div id="stats">
-
-        <div class="carName">
-            ND-01 STREET
-        </div>
-
-        <div class="stat">
-
-            <div class="statHeader">
-                <span>POTENCIA</span>
-                <span id="powerText">68%</span>
-            </div>
-
-            <div class="bar">
-                <div
-                    class="barFill"
-                    id="powerBar"
-                    style="width:68%">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="stat">
-
-            <div class="statHeader">
-                <span>VELOCIDAD</span>
-                <span id="speedText">72%</span>
-            </div>
-
-            <div class="bar">
-                <div
-                    class="barFill"
-                    id="speedBar"
-                    style="width:72%">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="stat">
-
-            <div class="statHeader">
-                <span>ACELERACIÓN</span>
-                <span id="accelText">75%</span>
-            </div>
-
-            <div class="bar">
-                <div
-                    class="barFill"
-                    id="accelBar"
-                    style="width:75%">
-                </div>
-            </div>
-
-        </div>
-
-        <div class="stat">
-
-            <div class="statHeader">
-                <span>MANEJO</span>
-                <span id="handlingText">61%</span>
-            </div>
-
-            <div class="bar">
-                <div
-                    class="barFill"
-                    id="handlingBar"
-                    style="width:61%">
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <div id="help">
-        ARRASTRA PARA GIRAR LA CÁMARA<br>
-        RUEDA DEL RATÓN = ZOOM<br>
-        C = CAMBIAR CÁMARA
-    </div>
+ <button class="menuBtn" id="resetBtn">
+  ↩ RESTAURAR COCHE
+ </button>
 
 </div>
 
-<!-- TOUCH -->
+<div id="tuning">
 
-<div id="touchControls">
+ <div class="tuningTitle">VISUAL TUNING</div>
 
-    <div class="touchGroup">
+ <div class="category">
+  <div class="categoryTitle">PINTURA</div>
 
-        <button class="touchButton" id="touchLeft">
-            ◀
-        </button>
+  <div class="colorGrid" id="paintColors">
 
-        <button class="touchButton" id="touchRight">
-            ▶
-        </button>
+   <button class="color selected" data-color="#111111" style="background:#111111"></button>
+   <button class="color" data-color="#e60000" style="background:#e60000"></button>
+   <button class="color" data-color="#0066ff" style="background:#0066ff"></button>
+   <button class="color" data-color="#00cc77" style="background:#00cc77"></button>
+   <button class="color" data-color="#eeeeee" style="background:#eeeeee"></button>
+   <button class="color" data-color="#8c00ff" style="background:#8c00ff"></button>
+   <button class="color" data-color="#ff1493" style="background:#ff1493"></button>
+   <button class="color" data-color="#ff7200" style="background:#ff7200"></button>
+   <button class="color" data-color="#ffd000" style="background:#ffd000"></button>
+   <button class="color" data-color="#00ffff" style="background:#00ffff"></button>
 
-    </div>
+  </div>
+ </div>
 
-    <div class="touchGroup">
+ <div class="category">
+  <div class="categoryTitle">LLANTAS</div>
 
-        <button class="touchButton" id="touchZoomOut">
-            −
-        </button>
+  <div class="optionGrid">
 
-        <button class="touchButton" id="touchZoomIn">
-            +
-        </button>
+   <button class="option selected" data-type="wheels" data-value="0">
+    STOCK
+    <small>Gratis</small>
+   </button>
 
-    </div>
+   <button class="option" data-type="wheels" data-value="1">
+    SPORT
+    <small>$1,000</small>
+   </button>
+
+   <button class="option" data-type="wheels" data-value="2">
+    RACING
+    <small>$1,800</small>
+   </button>
+
+   <button class="option" data-type="wheels" data-value="3">
+    DEEP DISH
+    <small>$2,500</small>
+   </button>
+
+  </div>
+ </div>
+
+ <div class="category">
+  <div class="categoryTitle">ALERÓN</div>
+
+  <div class="optionGrid">
+
+   <button class="option selected" data-type="spoiler" data-value="0">
+    STOCK
+    <small>Gratis</small>
+   </button>
+
+   <button class="option" data-type="spoiler" data-value="1">
+    STREET
+    <small>$1,200</small>
+   </button>
+
+   <button class="option" data-type="spoiler" data-value="2">
+    GT
+    <small>$2,500</small>
+   </button>
+
+   <button class="option" data-type="spoiler" data-value="3">
+    EXTREME
+    <small>$4,000</small>
+   </button>
+
+  </div>
+ </div>
+
+ <div class="category">
+  <div class="categoryTitle">PARAGOLPES</div>
+
+  <div class="optionGrid">
+
+   <button class="option selected" data-type="bumper" data-value="0">
+    STOCK
+    <small>Gratis</small>
+   </button>
+
+   <button class="option" data-type="bumper" data-value="1">
+    STREET
+    <small>$1,500</small>
+   </button>
+
+   <button class="option" data-type="bumper" data-value="2">
+    GT
+    <small>$3,000</small>
+   </button>
+
+   <button class="option" data-type="bumper" data-value="3">
+    EXTREME
+    <small>$5,000</small>
+   </button>
+
+  </div>
+ </div>
+
+ <div class="category">
+  <div class="categoryTitle">ESCAPE</div>
+
+  <div class="optionGrid">
+
+   <button class="option selected" data-type="exhaust" data-value="0">
+    STOCK
+    <small>Gratis</small>
+   </button>
+
+   <button class="option" data-type="exhaust" data-value="1">
+    SPORT
+    <small>$900</small>
+   </button>
+
+   <button class="option" data-type="exhaust" data-value="2">
+    RACING
+    <small>$1,600</small>
+   </button>
+
+   <button class="option" data-type="exhaust" data-value="3">
+    TITANIUM
+    <small>$2,800</small>
+   </button>
+
+  </div>
+ </div>
+
+ <div class="category">
+  <div class="categoryTitle">SUSPENSIÓN</div>
+
+  <div class="optionGrid">
+
+   <button class="option selected" data-type="suspension" data-value="0">
+    STOCK
+    <small>Gratis</small>
+   </button>
+
+   <button class="option" data-type="suspension" data-value="1">
+    LOW
+    <small>$1,200</small>
+   </button>
+
+   <button class="option" data-type="suspension" data-value="2">
+    EXTREME
+    <small>$2,500</small>
+   </button>
+
+  </div>
+ </div>
+
+ <div class="category">
+  <div class="categoryTitle">NEÓN</div>
+
+  <div class="colorGrid" id="neonColors">
+
+   <button class="color selected" data-color="#00dcff" style="background:#00dcff"></button>
+   <button class="color" data-color="#ff00cc" style="background:#ff00cc"></button>
+   <button class="color" data-color="#7d00ff" style="background:#7d00ff"></button>
+   <button class="color" data-color="#00ff88" style="background:#00ff88"></button>
+   <button class="color" data-color="#ff3300" style="background:#ff3300"></button>
+
+  </div>
+ </div>
+
+</div>
+
+<div id="stats">
+
+ <div class="carName">ND-01 STREET</div>
+
+ <div class="stat">
+  <div class="statHead">
+   <span>POTENCIA</span>
+   <span id="powerText">68%</span>
+  </div>
+  <div class="statBar">
+   <div class="statFill" id="powerBar" style="width:68%"></div>
+  </div>
+ </div>
+
+ <div class="stat">
+  <div class="statHead">
+   <span>VELOCIDAD</span>
+   <span id="speedText">72%</span>
+  </div>
+  <div class="statBar">
+   <div class="statFill" id="speedBar" style="width:72%"></div>
+  </div>
+ </div>
+
+ <div class="stat">
+  <div class="statHead">
+   <span>ACELERACIÓN</span>
+   <span id="accelText">75%</span>
+  </div>
+  <div class="statBar">
+   <div class="statFill" id="accelBar" style="width:75%"></div>
+  </div>
+ </div>
+
+ <div class="stat">
+  <div class="statHead">
+   <span>MANEJO</span>
+   <span id="handlingText">61%</span>
+  </div>
+  <div class="statBar">
+   <div class="statFill" id="handlingBar" style="width:61%"></div>
+  </div>
+ </div>
+
+ <div class="stat">
+  <div class="statHead">
+   <span>ESTILO</span>
+   <span id="styleText">20%</span>
+  </div>
+  <div class="statBar">
+   <div class="statFill" id="styleBar" style="width:20%"></div>
+  </div>
+ </div>
+
+</div>
+
+<div id="controls">
+ <button class="controlBtn" id="leftBtn">◀</button>
+ <button class="controlBtn" id="rightBtn">▶</button>
+ <button class="controlBtn" id="zoomOut">−</button>
+ <button class="controlBtn" id="zoomIn">+</button>
+</div>
+
+</div>
+
+<div id="touch">
+
+ <div class="touchGroup">
+  <button class="touchBtn" id="touchLeft">◀</button>
+  <button class="touchBtn" id="touchRight">▶</button>
+ </div>
+
+ <div class="touchGroup">
+  <button class="touchBtn" id="touchMinus">−</button>
+  <button class="touchBtn" id="touchPlus">+</button>
+ </div>
 
 </div>
 
 <script type="module">
 
-import * as THREE
-from "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
+import * as THREE from
+"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 
 
 /* =====================================================
-   VARIABLES
+   GAME STATE
+===================================================== */
+
+const state = {
+
+ money:25000,
+
+ paint:"#111111",
+ neon:"#00dcff",
+
+ wheels:0,
+ spoiler:0,
+ bumper:0,
+ exhaust:0,
+ suspension:0,
+
+ power:68,
+ speed:72,
+ acceleration:75,
+ handling:61,
+ style:20
+
+};
+
+
+/* =====================================================
+   THREE
 ===================================================== */
 
 let scene;
@@ -708,22 +645,19 @@ let renderer;
 
 let car;
 
-let bodyMeshes = [];
-let wheelMeshes = [];
-let neonLights = [];
+let bodyParts=[];
+let wheels=[];
+let spoilerParts=[];
+let bumperParts=[];
+let exhaustParts=[];
+let neonObjects=[];
 
-let cameraAngle = 0;
-let cameraDistance = 8;
+let cameraAngle=0;
+let cameraDistance=8;
+let autoRotate=true;
 
-let autoRotate = true;
-
-let targetAngle = 0;
-
-let bodyColor = "#111111";
-let wheelColor = "#111111";
-let neonColor = "#00dcff";
-
-let money = 25000;
+let mouseDown=false;
+let lastX=0;
 
 
 /* =====================================================
@@ -732,159 +666,123 @@ let money = 25000;
 
 init();
 
-function init() {
+function init(){
 
-    scene = new THREE.Scene();
+ scene=new THREE.Scene();
 
-    scene.background =
-        new THREE.Color("#050509");
+ scene.background=
+ new THREE.Color(0x050509);
 
-    scene.fog =
-        new THREE.FogExp2("#050509", 0.035);
+ scene.fog=
+ new THREE.FogExp2(
+  0x050509,
+  .035
+ );
 
+ camera=
+ new THREE.PerspectiveCamera(
+  45,
+  innerWidth/innerHeight,
+  .1,
+  1000
+ );
 
-    /* CAMERA */
+ renderer=
+ new THREE.WebGLRenderer({
+  antialias:true
+ });
 
-    camera = new THREE.PerspectiveCamera(
-        45,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-    );
+ renderer.setPixelRatio(
+  Math.min(devicePixelRatio,2)
+ );
 
+ renderer.setSize(
+  innerWidth,
+  innerHeight
+ );
 
-    /* RENDERER */
+ renderer.shadowMap.enabled=true;
 
-    renderer = new THREE.WebGLRenderer({
-        antialias: true
-    });
+ document
+ .getElementById("game")
+ .appendChild(renderer.domElement);
 
-    renderer.setPixelRatio(
-        Math.min(window.devicePixelRatio, 2)
-    );
+ createLights();
+ createGarage();
 
-    renderer.setSize(
-        window.innerWidth,
-        window.innerHeight
-    );
+ car=createCar();
 
-    renderer.shadowMap.enabled = true;
+ scene.add(car);
 
-    renderer.shadowMap.type =
-        THREE.PCFSoftShadowMap;
+ loadSave();
+ setupUI();
+ setupMouse();
+ setupTouch();
 
-    document
-        .getElementById("game")
-        .appendChild(renderer.domElement);
+ updateCamera();
 
+ addEventListener(
+  "resize",
+  resize
+ );
 
-    /* LIGHTING */
-
-    createLighting();
-
-
-    /* GARAGE */
-
-    createGarage();
-
-
-    /* CAR */
-
-    car = createCar();
-
-    scene.add(car);
-
-
-    /* CAMERA */
-
-    updateCamera();
-
-
-    /* EVENTS */
-
-    window.addEventListener(
-        "resize",
-        onResize
-    );
-
-    setupMouse();
-
-    setupTouch();
-
-    setupMenu();
-
-    setupColors();
-
-
-    /* LOOP */
-
-    animate();
+ animate();
 }
 
 
 /* =====================================================
-   LIGHTING
+   LIGHTS
 ===================================================== */
 
-function createLighting() {
+function createLights(){
 
-    const ambient =
-        new THREE.AmbientLight(
-            0x666677,
-            1.5
-        );
+ const ambient=
+ new THREE.AmbientLight(
+  0x777788,
+  1.6
+ );
 
-    scene.add(ambient);
+ scene.add(ambient);
 
+ const main=
+ new THREE.DirectionalLight(
+  0xffffff,
+  2.2
+ );
 
-    const mainLight =
-        new THREE.DirectionalLight(
-            0xffffff,
-            2
-        );
+ main.position.set(
+  5,9,5
+ );
 
-    mainLight.position.set(
-        4,
-        8,
-        5
-    );
+ main.castShadow=true;
 
-    mainLight.castShadow = true;
+ scene.add(main);
 
-    scene.add(mainLight);
+ const cyan=
+ new THREE.PointLight(
+  0x00dcff,
+  30,
+  20
+ );
 
+ cyan.position.set(
+  -6,4,3
+ );
 
-    const cyan =
-        new THREE.PointLight(
-            0x00dcff,
-            25,
-            20
-        );
+ scene.add(cyan);
 
-    cyan.position.set(
-        -5,
-        3,
-        3
-    );
+ const pink=
+ new THREE.PointLight(
+  0xff00cc,
+  30,
+  20
+ );
 
-    scene.add(cyan);
+ pink.position.set(
+  6,4,-3
+ );
 
-
-    const pink =
-        new THREE.PointLight(
-            0xff00cc,
-            25,
-            20
-        );
-
-    pink.position.set(
-        5,
-        3,
-        -3
-    );
-
-    scene.add(pink);
-
+ scene.add(pink);
 }
 
 
@@ -892,234 +790,99 @@ function createLighting() {
    GARAGE
 ===================================================== */
 
-function createGarage() {
+function createGarage(){
 
-    /* FLOOR */
+ const floor=
+ new THREE.Mesh(
+  new THREE.PlaneGeometry(40,40),
+  new THREE.MeshStandardMaterial({
+   color:0x111116,
+   roughness:.3,
+   metalness:.8
+  })
+ );
 
-    const floorGeometry =
-        new THREE.PlaneGeometry(
-            40,
-            40
-        );
+ floor.rotation.x=-Math.PI/2;
+ floor.receiveShadow=true;
 
-    const floorMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x101015,
-            roughness: 0.35,
-            metalness: 0.75
-        });
-
-    const floor =
-        new THREE.Mesh(
-            floorGeometry,
-            floorMaterial
-        );
-
-    floor.rotation.x =
-        -Math.PI / 2;
-
-    floor.receiveShadow = true;
-
-    scene.add(floor);
+ scene.add(floor);
 
 
-    /* PLATFORM */
+ const platform=
+ new THREE.Mesh(
+  new THREE.CylinderGeometry(
+   3.7,3.7,.25,64
+  ),
+  new THREE.MeshStandardMaterial({
+   color:0x181820,
+   metalness:.8,
+   roughness:.25
+  })
+ );
 
-    const platformGeometry =
-        new THREE.CylinderGeometry(
-            3.5,
-            3.5,
-            .25,
-            64
-        );
+ platform.position.y=.12;
 
-    const platformMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x171720,
-            metalness: 0.8,
-            roughness: 0.25
-        });
-
-    const platform =
-        new THREE.Mesh(
-            platformGeometry,
-            platformMaterial
-        );
-
-    platform.position.y =
-        .12;
-
-    platform.receiveShadow = true;
-
-    scene.add(platform);
+ scene.add(platform);
 
 
-    /* PLATFORM RING */
+ const ring=
+ new THREE.Mesh(
+  new THREE.TorusGeometry(
+   3.7,.045,12,64
+  ),
+  new THREE.MeshBasicMaterial({
+   color:0x00dcff
+  })
+ );
 
-    const ringGeometry =
-        new THREE.TorusGeometry(
-            3.5,
-            .035,
-            12,
-            64
-        );
+ ring.rotation.x=Math.PI/2;
+ ring.position.y=.27;
 
-    const ringMaterial =
-        new THREE.MeshBasicMaterial({
-            color: 0x00dcff
-        });
-
-    const ring =
-        new THREE.Mesh(
-            ringGeometry,
-            ringMaterial
-        );
-
-    ring.rotation.x =
-        Math.PI / 2;
-
-    ring.position.y =
-        .27;
-
-    scene.add(ring);
+ scene.add(ring);
 
 
-    /* BACK WALL */
+ const wall=
+ new THREE.Mesh(
+  new THREE.BoxGeometry(40,10,.5),
+  new THREE.MeshStandardMaterial({
+   color:0x08080d
+  })
+ );
 
-    const wallGeometry =
-        new THREE.BoxGeometry(
-            40,
-            10,
-            .5
-        );
+ wall.position.set(0,5,-7);
 
-    const wallMaterial =
-        new THREE.MeshStandardMaterial({
-            color: 0x08080d,
-            roughness: .8
-        });
-
-    const wall =
-        new THREE.Mesh(
-            wallGeometry,
-            wallMaterial
-        );
-
-    wall.position.set(
-        0,
-        5,
-        -7
-    );
-
-    wall.receiveShadow = true;
-
-    scene.add(wall);
+ scene.add(wall);
 
 
-    /* NEON WALL STRIPS */
-
-    createNeonStrip(
-        -7,
-        4.5,
-        -6.7,
-        0x00dcff
-    );
-
-    createNeonStrip(
-        7,
-        4.5,
-        -6.7,
-        0xff00cc
-    );
-
-
-    /* FLOOR LINES */
-
-    for(let i = -12; i <= 12; i += 3) {
-
-        const geometry =
-            new THREE.BoxGeometry(
-                .04,
-                .01,
-                40
-            );
-
-        const material =
-            new THREE.MeshBasicMaterial({
-                color: 0x15151c
-            });
-
-        const line =
-            new THREE.Mesh(
-                geometry,
-                material
-            );
-
-        line.position.x = i;
-
-        line.position.y =
-            .015;
-
-        scene.add(line);
-
-    }
-
+ createNeonWall(-7,4.5,-6.7,0x00dcff);
+ createNeonWall(7,4.5,-6.7,0xff00cc);
 }
 
 
-/* =====================================================
-   NEON STRIP
-===================================================== */
+function createNeonWall(x,y,z,color){
 
-function createNeonStrip(
-    x,
-    y,
-    z,
-    color
-) {
+ const mesh=
+ new THREE.Mesh(
+  new THREE.BoxGeometry(.08,5,.08),
+  new THREE.MeshBasicMaterial({
+   color
+  })
+ );
 
-    const geometry =
-        new THREE.BoxGeometry(
-            .08,
-            5,
-            .08
-        );
+ mesh.position.set(x,y,z);
 
-    const material =
-        new THREE.MeshBasicMaterial({
-            color: color
-        });
+ scene.add(mesh);
 
-    const mesh =
-        new THREE.Mesh(
-            geometry,
-            material
-        );
+ const light=
+ new THREE.PointLight(
+  color,
+  18,
+  12
+ );
 
-    mesh.position.set(
-        x,
-        y,
-        z
-    );
+ light.position.set(x,y,z);
 
-    scene.add(mesh);
-
-
-    const light =
-        new THREE.PointLight(
-            color,
-            18,
-            12
-        );
-
-    light.position.set(
-        x,
-        y,
-        z
-    );
-
-    scene.add(light);
-
+ scene.add(light);
 }
 
 
@@ -1127,68 +890,404 @@ function createNeonStrip(
    CAR
 ===================================================== */
 
-function createCar() {
+function createCar(){
 
-    const group =
-        new THREE.Group();
-
-
-    /* BODY */
-
-    const bodyGeometry =
-        new THREE.BoxGeometry(
-            3.2,
-            .65,
-            1.5
-        );
-
-    const bodyMaterial =
-        new THREE.MeshStandardMaterial({
-            color: bodyColor,
-            metalness: .85,
-            roughness: .22
-        });
-
-    const body =
-        new THREE.Mesh(
-            bodyGeometry,
-            bodyMaterial
-        );
-
-    body.position.y =
-        1.05;
-
-    body.castShadow = true;
-
-    group.add(body);
-
-    bodyMeshes.push(body);
+ const group=
+ new THREE.Group();
 
 
-    /* HOOD */
+ const bodyMat=
+ new THREE.MeshStandardMaterial({
+  color:state.paint,
+  metalness:.88,
+  roughness:.2
+ });
 
-    const hoodGeometry =
-        new THREE.BoxGeometry(
-            1.35,
-            .25,
-            1.42
-        );
 
-    const hood =
-        new THREE.Mesh(
-            hoodGeometry,
-            bodyMaterial
-        );
+ /* BODY */
 
-    hood.position.set(
-        1.15,
-        1.38,
-        0
-    );
+ const body=
+ new THREE.Mesh(
+  new THREE.BoxGeometry(3.3,.68,1.5),
+  bodyMat
+ );
 
-    hood.rotation.z =
-        -0.025;
+ body.position.y=1.05;
+ body.castShadow=true;
 
-    hood.castShadow = true;
+ group.add(body);
 
-    group
+ bodyParts.push(body);
+
+
+ /* HOOD */
+
+ const hood=
+ new THREE.Mesh(
+  new THREE.BoxGeometry(1.35,.25,1.42),
+  bodyMat
+ );
+
+ hood.position.set(
+  1.15,1.38,0
+ );
+
+ group.add(hood);
+ bodyParts.push(hood);
+
+
+ /* CABIN */
+
+ const cabin=
+ new THREE.Mesh(
+  new THREE.BoxGeometry(1.5,.65,1.3),
+  new THREE.MeshStandardMaterial({
+   color:0x101820,
+   metalness:.6,
+   roughness:.1
+  })
+ );
+
+ cabin.position.set(
+  -.35,1.58,0
+ );
+
+ group.add(cabin);
+
+
+ /* ROOF */
+
+ const roof=
+ new THREE.Mesh(
+  new THREE.BoxGeometry(1.35,.12,1.32),
+  bodyMat
+ );
+
+ roof.position.set(
+  -.35,1.92,0
+ );
+
+ group.add(roof);
+ bodyParts.push(roof);
+
+
+ /* BUMPERS */
+
+ createBumper(group);
+
+
+ /* SPOILER */
+
+ createSpoiler(group);
+
+
+ /* EXHAUST */
+
+ createExhaust(group);
+
+
+ /* WHEELS */
+
+ const positions=[
+  [1.05,.65,.86],
+  [1.05,.65,-.86],
+  [-1.15,.65,.86],
+  [-1.15,.65,-.86]
+ ];
+
+ positions.forEach(
+  p=>{
+
+   const wheel=
+   createWheel();
+
+   wheel.position.set(
+    p[0],p[1],p[2]
+   );
+
+   group.add(wheel);
+   wheels.push(wheel);
+
+  }
+ );
+
+
+ /* HEADLIGHTS */
+
+ createLight(group,1.88,1.2,.55,0xeaffff);
+ createLight(group,1.88,1.2,-.55,0xeaffff);
+
+ createLight(group,-1.68,1.2,.55,0xff0033);
+ createLight(group,-1.68,1.2,-.55,0xff0033);
+
+
+ /* NEON */
+
+ const neon=
+ new THREE.PointLight(
+  state.neon,
+  12,
+  8
+ );
+
+ neon.position.y=.5;
+
+ group.add(neon);
+
+ neonObjects.push(neon);
+
+
+ const glow=
+ new THREE.Mesh(
+  new THREE.PlaneGeometry(2.9,1.4),
+  new THREE.MeshBasicMaterial({
+   color:state.neon,
+   transparent:true,
+   opacity:.2,
+   side:THREE.DoubleSide
+  })
+ );
+
+ glow.rotation.x=-Math.PI/2;
+ glow.position.y=.35;
+
+ group.add(glow);
+
+ neonObjects.push(glow);
+
+
+ return group;
+}
+
+
+/* =====================================================
+   WHEEL
+===================================================== */
+
+function createWheel(){
+
+ const group=
+ new THREE.Group();
+
+ const tire=
+ new THREE.Mesh(
+  new THREE.CylinderGeometry(
+   .43,.43,.26,32
+  ),
+  new THREE.MeshStandardMaterial({
+   color:0x111111,
+   roughness:.38,
+   metalness:.45
+  })
+ );
+
+ tire.rotation.z=Math.PI/2;
+
+ group.add(tire);
+
+
+ const rim=
+ new THREE.Mesh(
+  new THREE.CylinderGeometry(
+   .24,.24,.28,16
+  ),
+  new THREE.MeshStandardMaterial({
+   color:0xaaaaaa,
+   metalness:1,
+   roughness:.15
+  })
+ );
+
+ rim.rotation.z=Math.PI/2;
+
+ group.add(rim);
+
+
+ return group;
+}
+
+
+/* =====================================================
+   BUMPER
+===================================================== */
+
+function createBumper(group){
+
+ const bumper=
+ new THREE.Mesh(
+  new THREE.BoxGeometry(
+   .3,.25,1.55
+  ),
+  new THREE.MeshStandardMaterial({
+   color:state.paint,
+   metalness:.88,
+   roughness:.2
+  })
+ );
+
+ bumper.position.set(
+  1.7,.92,0
+ );
+
+ group.add(bumper);
+ bumperParts.push(bumper);
+
+}
+
+
+/* =====================================================
+   SPOILER
+===================================================== */
+
+function createSpoiler(group){
+
+ const holder1=
+ new THREE.Mesh(
+  new THREE.BoxGeometry(.08,.4,.08),
+  new THREE.MeshStandardMaterial({
+   color:0x111111
+  })
+ );
+
+ const holder2=
+ holder1.clone();
+
+ holder1.position.set(
+  -1.35,1.48,.45
+ );
+
+ holder2.position.set(
+  -1.35,1.48,-.45
+ );
+
+ group.add(holder1);
+ group.add(holder2);
+
+ const wing=
+ new THREE.Mesh(
+  new THREE.BoxGeometry(
+   .7,.08,1.45
+  ),
+  new THREE.MeshStandardMaterial({
+   color:state.paint,
+   metalness:.8
+  })
+ );
+
+ wing.position.set(
+  -1.45,1.72,0
+ );
+
+ group.add(wing);
+
+ spoilerParts.push(
+  holder1,
+  holder2,
+  wing
+ );
+
+}
+
+
+/* =====================================================
+   EXHAUST
+===================================================== */
+
+function createExhaust(group){
+
+ const createPipe=z=>{
+
+  const pipe=
+  new THREE.Mesh(
+   new THREE.CylinderGeometry(
+    .09,.09,.35,16
+   ),
+   new THREE.MeshStandardMaterial({
+    color:0x777777,
+    metalness:1,
+    roughness:.15
+   })
+  );
+
+  pipe.rotation.z=Math.PI/2;
+
+  pipe.position.set(
+   -1.78,.78,z
+  );
+
+  group.add(pipe);
+
+  exhaustParts.push(pipe);
+ };
+
+ createPipe(.45);
+ createPipe(-.45);
+}
+
+
+/* =====================================================
+   LIGHT
+===================================================== */
+
+function createLight(
+ group,x,y,z,color
+){
+
+ const mesh=
+ new THREE.Mesh(
+  new THREE.BoxGeometry(
+   .12,.16,.35
+  ),
+  new THREE.MeshBasicMaterial({
+   color
+  })
+ );
+
+ mesh.position.set(
+  x,y,z
+ );
+
+ group.add(mesh);
+}
+
+
+/* =====================================================
+   APPLY TUNING
+===================================================== */
+
+function applyTuning(){
+
+ /* WHEELS */
+
+ wheels.forEach(
+  wheel=>{
+
+   wheel.scale.set(
+    1,1,1
+   );
+
+  }
+ );
+
+
+ if(state.wheels===1){
+
+  wheels.forEach(
+   w=>w.scale.set(
+    1.08,1.08,1.08
+   )
+  );
+
+ }
+
+ if(state.wheels===2){
+
+  wheels.forEach(
+   w=>w.scale.set(
+    1.16,1.16,1.16
+   )
+  );
+
+ }
+
+ if(state.wheels===3
